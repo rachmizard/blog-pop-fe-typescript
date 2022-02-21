@@ -1,7 +1,17 @@
 import Head from "next/head";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { authStore } from "store";
 
 const LoginLayout: React.FC = ({ children }) => {
+  const { isAuthenticated } = useRecoilValue(authStore.authAtom);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated && router.isReady) router.replace("/");
+  }, [isAuthenticated, router]);
+
   return (
     <>
       <Head>

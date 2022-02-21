@@ -1,12 +1,37 @@
-import { Box, Heading, Stack, Text, Button } from "@chakra-ui/react";
+import { Box, Heading, Stack, Text, Button, useToast } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
+import Router from "next/router";
 
 import { MoleculeInputGroupText } from "components/molecules";
 import { Form } from "components/atoms";
 import { AuthValidation } from "validations";
+import { useAuth } from "hooks";
+import { authStore } from "store";
 
 const OrganismLoginContainer: React.FC = () => {
+  const [auth, setAuth] = useRecoilState(authStore.authAtom);
+  const { mutate, isLoading } = useAuth.useAuthLoginMutation();
+  const toast = useToast();
+
   const onSubmit = (values: any) => {
-    console.log(values);
+    mutate(values, {
+      onError: (error: any) => {
+        toast({
+          title: "Somethin Went Wrong",
+          description: error?.message,
+        });
+      },
+      onSuccess: ({ data }) => {
+        setAuth((currVal) => ({
+          ...currVal,
+          accessToken: data?.accessToken,
+          user: data.user,
+          isAuthenticated: true,
+        }));
+
+        Router.replace("/");
+      },
+    });
   };
 
   return (
@@ -34,6 +59,7 @@ const OrganismLoginContainer: React.FC = () => {
               helperText="We will not share your email."
               htmlFor="email"
               name="email"
+              isRequired
             />
 
             <MoleculeInputGroupText
@@ -41,8 +67,9 @@ const OrganismLoginContainer: React.FC = () => {
               htmlFor="password"
               type="password"
               name="password"
+              isRequired
             />
-            <Button type="submit" colorScheme="telegram">
+            <Button isLoading={isLoading} type="submit" colorScheme="telegram">
               Login Now!
             </Button>
           </Stack>
