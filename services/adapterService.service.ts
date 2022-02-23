@@ -18,11 +18,9 @@ export default class AdapterService {
       (error) => {
         if (error.response) {
           if (error.response.status === 401) {
-            window.localStorage.removeItem("token");
+            window.localStorage.removeItem("auth");
 
-            if (Router.pathname !== "/login") {
-              Router.replace("/login");
-            }
+            Router.replace("/login");
 
             throw new Error(error.response.data.message);
           }
@@ -32,17 +30,6 @@ export default class AdapterService {
         throw error;
       }
     );
-  }
-
-  intercepError(response: AxiosResponse) {
-    if (response.status === 401) {
-      localStorage.removeItem("token");
-      if (Router.pathname !== "/login") {
-        Router.replace("/login");
-      }
-    }
-
-    return response;
   }
 
   interceptToken(config: AxiosRequestConfig) {

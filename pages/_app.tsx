@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { RecoilRoot } from "recoil";
 
 import DebugObserver from "lib/DebugObserver";
+import theme from "theme";
 
 const queryClient = new QueryClient();
 
@@ -14,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <DebugObserver />
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           <Component {...pageProps} />
         </ChakraProvider>
       </RecoilRoot>
