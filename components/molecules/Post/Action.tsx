@@ -1,7 +1,15 @@
 import { Flex, IconButton, Link, Stack } from "@chakra-ui/react";
 import { MdComment, MdShare, MdThumbUp } from "react-icons/md";
 
-const MoleculePostAction: React.FC = () => {
+interface MoleculePostActionProps {
+  comments: [];
+  onThumbUp?: () => void;
+  onComment?: (postId: number) => void;
+}
+
+const MoleculePostAction: React.FC<MoleculePostActionProps> = ({
+  comments,
+}) => {
   return (
     <Flex
       alignItems="center"
@@ -29,8 +37,7 @@ const MoleculePostAction: React.FC = () => {
         />
       </Stack>
       <Stack direction="row">
-        <Link fontSize="sm">230 likes</Link>
-        <Link fontSize="sm">230 comments</Link>
+        <Link fontSize="sm">{`${comments.length} comments`}</Link>
       </Stack>
     </Flex>
   );

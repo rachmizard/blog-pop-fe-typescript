@@ -5,9 +5,9 @@ export default class UserService extends AdapterService {
     super();
   }
 
-  async getNewUsers() {
+  async getNewUsers(params = {}) {
     try {
-      return this.sendGetRequest("/users");
+      return this.sendGetRequest("/users", params);
     } catch (error: any) {
       throw new Error("UserService.login: " + error?.message);
     }

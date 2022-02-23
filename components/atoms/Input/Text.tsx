@@ -5,7 +5,7 @@ import { ControllerRenderProps } from "react-hook-form";
 
 interface AtomInputText extends InputProps {
   children?: React.ReactNode;
-  controlRender: ControllerRenderProps;
+  controlRender?: ControllerRenderProps;
 }
 
 const AtomInputText: React.FC<AtomInputText> = ({ type, controlRender }) => {

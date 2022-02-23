@@ -5,13 +5,9 @@ import { IResponseUsers } from "./types/useUser.type";
 
 const userService = new UserService();
 
-const useUserQuery = () => {
-  return useQuery<AxiosResponse<IResponseUsers>, Error>(
-    ["new-users"],
-    () => userService.getNewUsers(),
-    {
-      staleTime: Infinity,
-    }
+const useUserQuery = (params = {}) => {
+  return useQuery<AxiosResponse<IResponseUsers>, Error>(["new-users"], () =>
+    userService.getNewUsers(params)
   );
 };
 

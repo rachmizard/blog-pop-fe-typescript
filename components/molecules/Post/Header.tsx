@@ -11,6 +11,8 @@ const MoleculePostHeader: React.FC<MoleculePostHeaderProps> = ({
   author,
   createdAt,
 }) => {
+  const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
   return (
     <HStack w="full" justifyContent="space-between">
       <Stack alignItems="center" direction="row">
@@ -18,7 +20,7 @@ const MoleculePostHeader: React.FC<MoleculePostHeaderProps> = ({
           display="flex"
           justifyContent="center"
           alignItems="center"
-          bg="rebeccapurple"
+          bgColor={`#${randomColor}`}
           rounded="full"
           h="8"
           w="8"

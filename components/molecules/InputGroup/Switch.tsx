@@ -7,12 +7,12 @@ import {
 } from "@chakra-ui/react";
 import { Controller, useFormContext } from "react-hook-form";
 
-import { InputInterfaceProps } from "components/atoms/Input/types/Input";
+import { SwitchInterfaceProps } from "components/atoms/Input/types/Input";
 
-interface MoleculeInputGroupTextProps extends FormControlProps {
-  component: React.ElementType<InputInterfaceProps>;
+interface MoleculeInputGroupSwitch extends FormControlProps {
+  component: React.ElementType<SwitchInterfaceProps>;
   name: string;
-  label: string;
+  label?: string;
   helperText?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
@@ -22,7 +22,7 @@ interface MoleculeInputGroupTextProps extends FormControlProps {
   defaultValue?: string;
 }
 
-const MoleculeInputGroupText: React.FC<MoleculeInputGroupTextProps> = (
+const MoleculeInputGroupSwitch: React.FC<MoleculeInputGroupSwitch> = (
   props
 ) => {
   const {
@@ -40,7 +40,7 @@ const MoleculeInputGroupText: React.FC<MoleculeInputGroupTextProps> = (
 
   const methods = useFormContext();
 
-  const AtomComponent: React.ElementType<InputInterfaceProps> = component;
+  const AtomComponent: React.ElementType<SwitchInterfaceProps> = component;
 
   return (
     <Controller
@@ -55,7 +55,7 @@ const MoleculeInputGroupText: React.FC<MoleculeInputGroupTextProps> = (
             {...rest}
           >
             <FormLabel htmlFor={htmlFor}>{label}</FormLabel>
-            <AtomComponent name={name} type={type} controlRender={field} />
+            <AtomComponent name={name} controlRender={field} />
             <FormErrorMessage>{fieldState.error?.message}</FormErrorMessage>
             <FormHelperText>{helperText}</FormHelperText>
           </FormControl>
@@ -65,4 +65,4 @@ const MoleculeInputGroupText: React.FC<MoleculeInputGroupTextProps> = (
   );
 };
 
-export default MoleculeInputGroupText;
+export default MoleculeInputGroupSwitch;

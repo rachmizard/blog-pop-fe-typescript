@@ -38,7 +38,7 @@ const MoleculeJoinerItem: React.FC<IMoleculeJoinerItemProps> = ({ user }) => {
         </Box>
       </Flex>
       <Box>
-        <Tooltip label="Follow Zimmy">
+        <Tooltip label={`Follow ${user.name}`}>
           <IconButton
             aria-label="Follow Icon Button"
             icon={<MdPersonAdd />}

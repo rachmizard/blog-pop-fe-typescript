@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import Router from "next/router";
 
 import { MoleculeInputGroupText } from "components/molecules";
-import { Form } from "components/atoms";
+import { AtomInputText, Form } from "components/atoms";
 import { AuthValidation } from "validations";
 import { useAuth } from "hooks";
 import { authStore } from "store";
@@ -53,26 +53,36 @@ const OrganismLoginContainer: React.FC = () => {
           validationSchema={AuthValidation.LoginSchemaValidation}
           onSubmit={onSubmit}
         >
-          <Stack spacing={8}>
-            <MoleculeInputGroupText
-              label="Email"
-              helperText="We will not share your email."
-              htmlFor="email"
-              name="email"
-              isRequired
-            />
+          {() => {
+            return (
+              <Stack spacing={8}>
+                <MoleculeInputGroupText
+                  label="Email"
+                  helperText="We will not share your email."
+                  htmlFor="email"
+                  name="email"
+                  isRequired
+                  component={AtomInputText}
+                />
 
-            <MoleculeInputGroupText
-              label="Password"
-              htmlFor="password"
-              type="password"
-              name="password"
-              isRequired
-            />
-            <Button isLoading={isLoading} type="submit" colorScheme="telegram">
-              Login Now!
-            </Button>
-          </Stack>
+                <MoleculeInputGroupText
+                  label="Password"
+                  htmlFor="password"
+                  type="password"
+                  name="password"
+                  isRequired
+                  component={AtomInputText}
+                />
+                <Button
+                  isLoading={isLoading}
+                  type="submit"
+                  colorScheme="telegram"
+                >
+                  Login Now!
+                </Button>
+              </Stack>
+            );
+          }}
         </Form>
       </Stack>
     </Box>

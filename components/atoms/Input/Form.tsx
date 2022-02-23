@@ -1,8 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
 
 interface IFormProps {
-  children: React.ReactNode;
+  children: (methods: UseFormReturn) => React.ReactNode;
   defaultValues: any;
   onSubmit: (values: any) => void;
   validationSchema?: any;
@@ -18,9 +18,10 @@ const Form: React.FC<IFormProps> = ({
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>{children(methods)}</form>
     </FormProvider>
   );
 };

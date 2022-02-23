@@ -3,7 +3,9 @@ import { MoleculeJoinerItem } from "components/molecules";
 import { useUser } from "hooks";
 
 const OrganismJoiner: React.FC = () => {
-  const { data, isLoading, isError } = useUser.useUserQuery();
+  const { data, isLoading, isError } = useUser.useUserQuery({
+    orderBy: "createdAt:desc",
+  });
 
   if (isError) return <Text>Ups something went wrong!</Text>;
 

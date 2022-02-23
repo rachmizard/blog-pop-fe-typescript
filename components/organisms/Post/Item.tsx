@@ -14,7 +14,7 @@ const OrganismPostItem: React.FC<OrganismPostItemProps> = ({ post }) => {
         <Heading size="md">{post.title}</Heading>
         <Text>{post.content}</Text>
       </Stack>
-      <MoleculePostAction />
+      <MoleculePostAction comments={post.postComment} />
     </Flex>
   );
 };

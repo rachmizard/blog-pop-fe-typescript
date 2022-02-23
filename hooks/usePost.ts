@@ -1,14 +1,20 @@
 import { AxiosResponse } from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { PostService } from "services";
-import { IResponsePosts } from "./types/usePost.type";
+import { ICreatePostVariables, IResponsePosts } from "types/post.type";
 
 const postService = new PostService();
 
-const useFetchPosts = () => {
-  return useQuery<AxiosResponse<IResponsePosts>, Error>(["posts"], () =>
-    postService.getPosts()
+const useFetchPosts = (params = {}) => {
+  return useQuery<AxiosResponse<IResponsePosts>, Error>(["posts", params], () =>
+    postService.getPosts(params)
   );
 };
 
-export { useFetchPosts };
+const useCreatePostMutation = () => {
+  return useMutation<AxiosResponse, Error, ICreatePostVariables>((args) =>
+    postService.createPost(args)
+  );
+};
+
+export { useFetchPosts, useCreatePostMutation };

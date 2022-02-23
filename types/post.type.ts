@@ -15,3 +15,12 @@ interface IAuthorPost {
   name: string;
   email: string;
 }
+export interface ICreatePostVariables {
+  title: string;
+  content: string;
+  published: true;
+}
+
+export interface IResponsePosts {
+  data: IPost[];
+}
