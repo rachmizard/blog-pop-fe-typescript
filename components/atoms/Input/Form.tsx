@@ -4,8 +4,8 @@ import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
 interface IFormProps {
   children: (methods: UseFormReturn) => React.ReactNode;
   defaultValues: any;
-  onSubmit: (values: any) => void;
-  validationSchema?: any;
+  onSubmit: (values: any, onResetCallback: () => void) => void;
+  validationSchema: any;
 }
 
 const Form: React.FC<IFormProps> = ({
@@ -21,7 +21,11 @@ const Form: React.FC<IFormProps> = ({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>{children(methods)}</form>
+      <form
+        onSubmit={methods.handleSubmit((data) => onSubmit(data, methods.reset))}
+      >
+        {children(methods)}
+      </form>
     </FormProvider>
   );
 };

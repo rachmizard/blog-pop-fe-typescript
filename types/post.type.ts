@@ -7,7 +7,20 @@ export interface IPost {
   content: string;
   authorId: number;
   author?: IAuthorPost;
-  postComment: [];
+  postComment: IPostComment[];
+}
+
+export interface IPostComment {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  published: boolean;
+  title: string;
+  content: string;
+  authorId: number;
+  author?: IAuthorPost;
+  postCommentId?: any;
+  postComments: IPostComment[];
 }
 
 interface IAuthorPost {
@@ -23,4 +36,8 @@ export interface ICreatePostVariables {
 
 export interface IResponsePosts {
   data: IPost[];
+}
+
+export interface ICreatePostCommentVariables {
+  content: string;
 }

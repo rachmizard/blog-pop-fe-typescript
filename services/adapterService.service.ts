@@ -20,7 +20,7 @@ export default class AdapterService {
           if (error.response.status === 401) {
             window.localStorage.removeItem("auth");
 
-            Router.replace("/login");
+            location.reload();
 
             throw new Error(error.response.data.message);
           }

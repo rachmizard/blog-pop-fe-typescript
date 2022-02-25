@@ -1,15 +1,27 @@
-import { Flex, Heading, HStack, Stack, Text } from "@chakra-ui/react";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import {
+  Flex,
+  Heading,
+  HStack,
+  IconButton,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { IPost } from "types/post.type";
 import { formatDate } from "utils/intl";
 
 interface MoleculePostHeaderProps {
   author: IPost["author"];
   createdAt: IPost["createdAt"];
+  isCollapsible?: boolean;
+  onToggle?: () => void;
 }
 
 const MoleculePostHeader: React.FC<MoleculePostHeaderProps> = ({
   author,
   createdAt,
+  isCollapsible,
+  onToggle,
 }) => {
   const randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
@@ -32,9 +44,25 @@ const MoleculePostHeader: React.FC<MoleculePostHeaderProps> = ({
         <Heading size="sm">{author?.name}</Heading>
       </Stack>
       <Stack>
-        <Text fontSize={{ base: "14px", sm: "16px", md: "14px" }}>
-          {formatDate(createdAt)}
-        </Text>
+        <HStack>
+          <Text fontSize={{ base: "14px", sm: "16px", md: "14px" }}>
+            {formatDate(createdAt)}
+          </Text>
+
+          <IconButton
+            icon={
+              isCollapsible ? (
+                <ChevronUpIcon aria-label="Button Icon" />
+              ) : (
+                <ChevronDownIcon aria-label="Button Icon" />
+              )
+            }
+            aria-label="Button Icon Collapsible"
+            fontSize="28"
+            variant="ghost"
+            onClick={onToggle}
+          />
+        </HStack>
       </Stack>
     </HStack>
   );

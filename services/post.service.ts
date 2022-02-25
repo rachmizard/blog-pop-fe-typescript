@@ -1,3 +1,4 @@
+import { ICreatePostCommentVariables } from "types/post.type";
 import AdapterService from "./adapterService.service";
 
 export default class PostService extends AdapterService {
@@ -9,7 +10,15 @@ export default class PostService extends AdapterService {
     try {
       return this.sendGetRequest("/posts", params);
     } catch (error: any) {
-      throw new Error("PostService.login: " + error?.message);
+      throw new Error("PostService.getPosts: " + error?.message);
+    }
+  }
+
+  async getPost(id: string) {
+    try {
+      return this.sendGetRequest("/posts/" + id);
+    } catch (error: any) {
+      throw new Error("PostService.getPost: " + error?.message);
     }
   }
 
@@ -17,7 +26,15 @@ export default class PostService extends AdapterService {
     try {
       return this.sendPostRequest("/posts", body);
     } catch (error: any) {
-      throw new Error("PostService.login: " + error?.message);
+      throw new Error("PostService.createPost: " + error?.message);
+    }
+  }
+
+  async createPostComment(postId: number, body: ICreatePostCommentVariables) {
+    try {
+      return this.sendPostRequest("/posts/" + postId, body);
+    } catch (error: any) {
+      throw new Error("PostService.createPostComment: " + error?.message);
     }
   }
 }
