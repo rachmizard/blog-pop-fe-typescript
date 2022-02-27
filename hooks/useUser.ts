@@ -1,7 +1,11 @@
 import { AxiosResponse } from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { UserService } from "services";
 import { IResponseUsers } from "./types/useUser.type";
+
+type FollowUser = {
+  userId: any;
+};
 
 const userService = new UserService();
 
@@ -11,4 +15,16 @@ const useUserQuery = (params = {}) => {
   );
 };
 
-export { useUserQuery };
+const useFollowUserMutation = () => {
+  return useMutation<AxiosResponse, Error, FollowUser>((args) =>
+    userService.followUserById(args.userId)
+  );
+};
+
+const useUnFollowUserMutation = () => {
+  return useMutation<AxiosResponse, Error, FollowUser>((args) =>
+    userService.unfollowUserById(args.userId)
+  );
+};
+
+export { useUserQuery, useFollowUserMutation, useUnFollowUserMutation };

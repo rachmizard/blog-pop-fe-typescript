@@ -19,6 +19,7 @@ const OrganismLoginContainer: React.FC = () => {
         toast({
           title: "Somethin Went Wrong",
           description: error?.message,
+          status: "error",
         });
       },
       onSuccess: ({ data }) => {

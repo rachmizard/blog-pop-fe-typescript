@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import { AuthService } from "services";
 import {
@@ -7,6 +7,10 @@ import {
 } from "store/auth/auth.types";
 
 const authService = new AuthService();
+
+const useGetProfile = () => {
+  return useQuery(["profile"], () => authService.getProfile());
+};
 
 const useAuthLoginMutation = () => {
   const { mutate, isLoading, isError, error } = useMutation(
@@ -47,4 +51,9 @@ const useAuthRegisterMutation = () => {
   };
 };
 
-export { useAuthLoginMutation, useAuthLogoutMutation, useAuthRegisterMutation };
+export {
+  useGetProfile,
+  useAuthLoginMutation,
+  useAuthLogoutMutation,
+  useAuthRegisterMutation,
+};

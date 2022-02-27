@@ -6,6 +6,14 @@ export default class AuthService extends AdapterService {
     super();
   }
 
+  async getProfile() {
+    try {
+      return this.sendGetRequest("/auth/profile");
+    } catch (error: any) {
+      throw new Error("AuthService.getProfile: " + error?.message);
+    }
+  }
+
   async login(email: string, password: string) {
     try {
       return this.sendPostRequest("/auth/login", { email, password });

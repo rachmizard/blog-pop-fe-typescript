@@ -72,10 +72,10 @@ const DetailPost: NextPage<DetailPostProps> = ({ postId }) => {
         {isLoading ? (
           <Stack spacing={8}>
             {Array.from({ length: 2 }).map((_, index) => (
-              <>
+              <Box key={index}>
                 <SkeletonCircle size="10" />
                 <SkeletonText mt="4" noOfLines={4} spacing="4" />
-              </>
+              </Box>
             ))}
           </Stack>
         ) : data?.data.postComment && data?.data.postComment.length > 0 ? (

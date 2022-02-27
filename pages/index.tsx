@@ -15,7 +15,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Container maxW="container.xl" mt="8">
-        <Flex gap={8} direction={{ base: "column", md: "row" }}>
+        <Flex gap={20} direction={{ base: "column", md: "row" }}>
           <Box w="50%" display={{ base: "none", md: "block" }}>
             <OrganismJoiner />
           </Box>

@@ -1,16 +1,87 @@
-import { Box, Flex, HStack, IconButton, Text, Tooltip } from "@chakra-ui/react";
-import { MdPersonAdd } from "react-icons/md";
+import { RiUserAddLine, RiUserUnfollowFill } from "react-icons/ri";
+import {
+  Box,
+  Flex,
+  HStack,
+  IconButton,
+  Text,
+  Tooltip,
+  useToast,
+} from "@chakra-ui/react";
+import { useQueryClient } from "react-query";
+import { useRecoilValue } from "recoil";
+
+import { authStore } from "store";
 import { IUser } from "types/user.type";
 import { formatDate } from "utils/intl";
+import { useUser } from "hooks";
 
 interface IMoleculeJoinerItemProps {
   user: IUser;
 }
 
 const MoleculeJoinerItem: React.FC<IMoleculeJoinerItemProps> = ({ user }) => {
+  const { mutate, isLoading } = useUser.useFollowUserMutation();
+  const { mutate: mutateUnfollow, isLoading: isLoadingUnfollow } =
+    useUser.useUnFollowUserMutation();
+
+  const auth = useRecoilValue(authStore.authAtom);
+  const mapFollowing = auth?.user.following?.map((follow) => follow.followerId);
+  const isFollowed = mapFollowing?.includes(user.id);
+
+  const hideFollowButton = user.id === auth.user.id;
+
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  const onClickFollow = (userId: number) => {
+    mutate(
+      { userId },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(["profile"]);
+
+          toast({
+            title: "Followed",
+            description: `You are now following ${user.name}`,
+            status: "success",
+            variant: "top-accent",
+            position: "top",
+          });
+        },
+        onError: (error) => {
+          toast({
+            title: "Something went wrong",
+            description: error.message,
+            status: "error",
+          });
+        },
+      }
+    );
+  };
+
+  const onClickUnFollow = (userId: number) => {
+    mutateUnfollow(
+      { userId },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(["new-users"]);
+          queryClient.invalidateQueries(["profile"]);
+        },
+        onError: (error) => {
+          toast({
+            title: "Something went wrong",
+            description: error.message,
+            status: "error",
+          });
+        },
+      }
+    );
+  };
+
   return (
-    <HStack w="full" justifyContent="space-between" alignItems="center">
-      <Flex gap={4} alignItems="center" flexShrink={0}>
+    <HStack justifyContent="space-between" alignItems="center">
+      <Flex gap={4} alignItems="center" w="full" flexShrink={0}>
         <Flex
           display="flex"
           justifyContent="center"
@@ -37,14 +108,27 @@ const MoleculeJoinerItem: React.FC<IMoleculeJoinerItemProps> = ({ user }) => {
           </Text>
         </Box>
       </Flex>
-      <Box>
-        <Tooltip label={`Follow ${user.name}`}>
-          <IconButton
-            aria-label="Follow Icon Button"
-            icon={<MdPersonAdd />}
-            rounded="full"
-            variant="ghost"
-          />
+      <Box hidden={hideFollowButton}>
+        <Tooltip label={`${isFollowed ? "Followed" : `Follow ${user.name}`}`}>
+          {isFollowed ? (
+            <IconButton
+              aria-label="Follow Icon Button"
+              icon={<RiUserUnfollowFill />}
+              rounded="full"
+              variant="ghost"
+              isLoading={isLoadingUnfollow}
+              onClick={() => onClickUnFollow(user.id)}
+            />
+          ) : (
+            <IconButton
+              aria-label="Follow Icon Button"
+              icon={<RiUserAddLine />}
+              rounded="full"
+              variant="ghost"
+              isLoading={isLoading}
+              onClick={() => onClickFollow(user.id)}
+            />
+          )}
         </Tooltip>
       </Box>
     </HStack>
