@@ -24,6 +24,7 @@ const authAtom = atom<IAuthState>({
       followedBy: [],
       following: [],
     },
+    followingState: [],
   },
   effects_UNSTABLE: [persistAtom],
 });

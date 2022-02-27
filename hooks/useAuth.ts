@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { useMutation, useQuery } from "react-query";
 
 import { AuthService } from "services";
@@ -9,7 +10,9 @@ import {
 const authService = new AuthService();
 
 const useGetProfile = () => {
-  return useQuery(["profile"], () => authService.getProfile());
+  return useQuery<AxiosResponse<any>, Error>(["profile"], () =>
+    authService.getProfile()
+  );
 };
 
 const useAuthLoginMutation = () => {

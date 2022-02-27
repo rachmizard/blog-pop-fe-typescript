@@ -4,6 +4,7 @@ export interface IAuthState {
   isAuthenticated: boolean;
   accessToken: string;
   user: IUser;
+  followingState: Number[];
 }
 
 export interface IAuthLoginVariables {

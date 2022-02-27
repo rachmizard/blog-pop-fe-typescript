@@ -9,7 +9,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useQueryClient } from "react-query";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 import { authStore } from "store";
 import { IUser } from "types/user.type";
@@ -25,9 +25,9 @@ const MoleculeJoinerItem: React.FC<IMoleculeJoinerItemProps> = ({ user }) => {
   const { mutate: mutateUnfollow, isLoading: isLoadingUnfollow } =
     useUser.useUnFollowUserMutation();
 
-  const auth = useRecoilValue(authStore.authAtom);
-  const mapFollowing = auth?.user.following?.map((follow) => follow.followerId);
-  const isFollowed = mapFollowing?.includes(user.id);
+  const [auth, setAuth] = useRecoilState(authStore.authAtom);
+
+  const isFollowed = auth.followingState.includes(user.id);
 
   const hideFollowButton = user.id === auth.user.id;
 
@@ -39,6 +39,13 @@ const MoleculeJoinerItem: React.FC<IMoleculeJoinerItemProps> = ({ user }) => {
       { userId },
       {
         onSuccess: () => {
+          setAuth((prev) => {
+            return {
+              ...prev,
+              followingState: [...prev.followingState, userId],
+            };
+          });
+
           queryClient.invalidateQueries(["profile"]);
 
           toast({
@@ -65,6 +72,15 @@ const MoleculeJoinerItem: React.FC<IMoleculeJoinerItemProps> = ({ user }) => {
       { userId },
       {
         onSuccess: () => {
+          setAuth((prev) => {
+            return {
+              ...prev,
+              followingState: [
+                ...prev.followingState.filter((id) => id !== userId),
+              ],
+            };
+          });
+
           queryClient.invalidateQueries(["new-users"]);
           queryClient.invalidateQueries(["profile"]);
         },

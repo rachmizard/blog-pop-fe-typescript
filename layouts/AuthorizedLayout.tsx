@@ -15,12 +15,7 @@ const AuthorizedLayout: NextPage = ({ children }): any => {
 
   useEffect(() => {
     if (data || isSuccess) {
-      setAuth((prevState) => {
-        return {
-          ...prevState,
-          user: data?.data?.user,
-        };
-      });
+      initialFetchAuth();
     }
   }, [data, isSuccess]);
 
@@ -29,6 +24,22 @@ const AuthorizedLayout: NextPage = ({ children }): any => {
   useEffect(() => {
     if (!auth.isAuthenticated && router.isReady) router.replace("/login");
   }, [auth.isAuthenticated, router]);
+
+  const initialFetchAuth = () => {
+    const transformFollowingToArray = data?.data?.user?.following?.map(
+      (val: any) => val.followerId
+    );
+
+    setAuth((prevState) => {
+      return {
+        ...prevState,
+        user: {
+          ...data?.data?.user,
+        },
+        followingState: transformFollowingToArray,
+      };
+    });
+  };
 
   return (
     <Box>
