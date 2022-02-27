@@ -1,3 +1,4 @@
+import { IAuthRegisterVariables } from "store/auth/auth.types";
 import AdapterService from "./adapterService.service";
 
 export default class AuthService extends AdapterService {
@@ -8,6 +9,14 @@ export default class AuthService extends AdapterService {
   async login(email: string, password: string) {
     try {
       return this.sendPostRequest("/auth/login", { email, password });
+    } catch (error: any) {
+      throw new Error("AuthService.login: " + error?.message);
+    }
+  }
+
+  async register(body: IAuthRegisterVariables) {
+    try {
+      return this.sendPostRequest("/auth/register", body);
     } catch (error: any) {
       throw new Error("AuthService.login: " + error?.message);
     }

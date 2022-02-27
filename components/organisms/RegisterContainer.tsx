@@ -7,13 +7,16 @@ import { AtomInputText, Form } from "components/atoms";
 import { AuthValidation } from "validations";
 import { useAuth } from "hooks";
 import { authStore } from "store";
+import { IAuthRegisterVariables } from "store/auth/auth.types";
 
-const OrganismLoginContainer: React.FC = () => {
-  const [auth, setAuth] = useRecoilState(authStore.authAtom);
-  const { mutate, isLoading } = useAuth.useAuthLoginMutation();
+const OrganismRegisterContainer: React.FC = () => {
+  const [_, setAuth] = useRecoilState(authStore.authAtom);
+  const { mutate, isLoading } = useAuth.useAuthRegisterMutation();
   const toast = useToast();
 
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: IAuthRegisterVariables) => {
+    console.log(values);
+
     mutate(values, {
       onError: (error: any) => {
         toast({
@@ -39,23 +42,25 @@ const OrganismLoginContainer: React.FC = () => {
       <Stack spacing={8}>
         <Stack>
           <Heading textAlign={"center"} size={"lg"}>
-            Welcome to BLOG POP!
+            Register your account
           </Heading>
           <Text fontSize={"18"} textAlign={"center"}>
-            Please Login
+            Please Register Here!
           </Text>
         </Stack>
         <Form
           defaultValues={{
             email: "",
             password: "",
+            name: "",
+            role: "USER",
           }}
-          validationSchema={AuthValidation.LoginSchemaValidation}
+          validationSchema={AuthValidation.RegisterSchemaValidation}
           onSubmit={onSubmit}
         >
           {() => {
             return (
-              <Stack spacing={8}>
+              <Stack spacing={4}>
                 <MoleculeInputGroupText
                   label="Email"
                   helperText="We will not share your email."
@@ -73,23 +78,31 @@ const OrganismLoginContainer: React.FC = () => {
                   isRequired
                   component={AtomInputText}
                 />
-                <Button
-                  isLoading={isLoading}
-                  type="submit"
-                  colorScheme="telegram"
-                >
-                  Login Now!
-                </Button>
+
+                <MoleculeInputGroupText
+                  label="Name"
+                  htmlFor="name"
+                  name="name"
+                  isRequired
+                  component={AtomInputText}
+                />
 
                 <Button
                   isLoading={isLoading}
                   type="submit"
                   colorScheme="telegram"
+                >
+                  Register Now!
+                </Button>
+
+                <Button
+                  type="submit"
+                  colorScheme="telegram"
                   variant="link"
                   size="sm"
-                  onClick={() => Router.push("/register")}
+                  onClick={() => Router.push("/login")}
                 >
-                  Didn`t have an account? Sign Up!
+                  Have an account? Login!
                 </Button>
               </Stack>
             );
@@ -100,4 +113,4 @@ const OrganismLoginContainer: React.FC = () => {
   );
 };
 
-export default OrganismLoginContainer;
+export default OrganismRegisterContainer;

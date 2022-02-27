@@ -14,3 +14,14 @@ interface IAuthUserState {
   salt: string;
   updatedAt: string;
 }
+
+export interface IAuthLoginVariables {
+  email: string;
+  password: string;
+}
+
+export interface IAuthRegisterVariables {
+  email: string;
+  password: string;
+  name: string;
+}

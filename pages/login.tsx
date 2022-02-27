@@ -1,10 +1,10 @@
 import { Flex } from "@chakra-ui/react";
 import { OrganismLoginContainer } from "components/organisms";
-import { LoginLayout } from "../layouts";
+import { UnauthorizedLayout } from "../layouts";
 
 const LoginPage = () => {
   return (
-    <LoginLayout>
+    <UnauthorizedLayout headerTitle="Login to Apps!">
       <Flex
         justifyContent="center"
         alignItems={"center"}
@@ -13,7 +13,7 @@ const LoginPage = () => {
       >
         <OrganismLoginContainer />
       </Flex>
-    </LoginLayout>
+    </UnauthorizedLayout>
   );
 };
 

@@ -5,7 +5,6 @@ const postAtom = atom<IPostState>({
   key: "post-likes",
   default: {
     likes: [],
-    apa: "wlwl",
   },
 });
 
