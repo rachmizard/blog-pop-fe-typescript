@@ -1,6 +1,5 @@
 import { ChevronDownIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import {
-  Box,
   Button,
   Flex,
   Heading,
@@ -11,7 +10,6 @@ import {
   MenuItem,
   MenuList,
   Stack,
-  useBreakpoint,
   useBreakpointValue,
   useToast,
 } from "@chakra-ui/react";
@@ -81,7 +79,13 @@ const OrganismNavbar: React.FC = () => {
     >
       <Stack justifyContent="space-between" w="full" direction="row">
         <HStack>
-          <Heading size="md">PoP Blog!</Heading>
+          <Heading
+            size="md"
+            onClick={() => router.push("/")}
+            style={{ cursor: "pointer" }}
+          >
+            PoP Blog!
+          </Heading>
         </HStack>
 
         <HStack spacing={16}>

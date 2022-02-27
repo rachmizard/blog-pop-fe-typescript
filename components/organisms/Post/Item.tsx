@@ -15,7 +15,7 @@ interface OrganismPostItemProps {
 }
 
 const OrganismPostItem: React.FC<OrganismPostItemProps> = ({ post }) => {
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
 
   return (
     <Flex direction="column" gap={4}>

@@ -1,5 +1,4 @@
-import Router from "next/router";
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 export default class AdapterService {
   requestAPI: AxiosInstance;

@@ -21,12 +21,8 @@ const useFetchPosts = (params = {}) => {
 };
 
 const useFetchDetailPost = (id: string) => {
-  return useQuery<AxiosResponse<IPost>>(
-    ["post", id],
-    () => postService.getPost(id),
-    {
-      staleTime: 7000,
-    }
+  return useQuery<AxiosResponse<IPost>>(["post", id], () =>
+    postService.getPost(id)
   );
 };
 

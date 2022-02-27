@@ -47,6 +47,7 @@ const DetailPost: NextPage<DetailPostProps> = ({ postId }) => {
   ) => {
     mutate(values, {
       onSuccess: () => {
+        queryClient.invalidateQueries(["posts"]);
         queryClient.invalidateQueries(["post", postId]);
 
         onResetCallback();
@@ -66,24 +67,30 @@ const DetailPost: NextPage<DetailPostProps> = ({ postId }) => {
   };
 
   const renderPostComments = () => {
-    return isLoading ? (
-      Array.from({ length: 2 }).map((_, index) => (
-        <>
-          <SkeletonCircle size="10" />
-          <SkeletonText mt="4" noOfLines={4} spacing="4" />
-        </>
-      ))
-    ) : data?.data.postComment && data?.data.postComment.length > 0 ? (
-      data?.data.postComment.map((comment) => (
-        <OrganismPostCommentItem
-          key={`comment-key-${comment.id}`}
-          comment={comment}
-        />
-      ))
-    ) : (
-      <Text color="gray.400" textAlign="center">
-        No comments. Be the first comment in this post.
-      </Text>
+    return (
+      <Box h="28em" overflowY="scroll" p="8" boxShadow="md" rounded="8">
+        {isLoading ? (
+          <Stack spacing={8}>
+            {Array.from({ length: 2 }).map((_, index) => (
+              <>
+                <SkeletonCircle size="10" />
+                <SkeletonText mt="4" noOfLines={4} spacing="4" />
+              </>
+            ))}
+          </Stack>
+        ) : data?.data.postComment && data?.data.postComment.length > 0 ? (
+          data?.data.postComment.map((comment) => (
+            <OrganismPostCommentItem
+              key={`comment-key-${comment.id}`}
+              comment={comment}
+            />
+          ))
+        ) : (
+          <Text color="gray.400" textAlign="center">
+            No comments. Be the first comment in this post.
+          </Text>
+        )}
+      </Box>
     );
   };
 
@@ -101,9 +108,7 @@ const DetailPost: NextPage<DetailPostProps> = ({ postId }) => {
             return (
               <Stack spacing={5}>
                 <Stack spacing={10}>
-                  <Stack p="4" boxShadow="md" rounded="md">
-                    {renderPostItem()}
-                  </Stack>
+                  {renderPostItem()}
                   <Stack pl="10" spacing={6}>
                     <HStack justifyContent="space-between">
                       <Heading size="md">Comments</Heading>
