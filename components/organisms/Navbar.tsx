@@ -4,6 +4,7 @@ import {
   Flex,
   Heading,
   HStack,
+  IconButton,
   Link,
   Menu,
   MenuButton,
@@ -18,6 +19,8 @@ import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useAuth } from "hooks";
 import { authStore } from "store";
 import { useRouter } from "next/router";
+import { RiNotification2Fill, RiNotification3Line } from "react-icons/ri";
+import { MdNotifications } from "react-icons/md";
 
 const OrganismNavbar: React.FC = () => {
   const { user } = useRecoilValue(authStore.authAtom);
@@ -46,11 +49,12 @@ const OrganismNavbar: React.FC = () => {
       {},
       {
         onSuccess: () => {
-          resetAuthAtom();
           toast({
             title: "Logout Success",
             description: "You have been logged out.",
           });
+
+          resetAuthAtom();
           router.replace("/login");
         },
         onError: (error: any) => {
@@ -88,11 +92,13 @@ const OrganismNavbar: React.FC = () => {
           </Heading>
         </HStack>
 
-        <HStack spacing={16}>
-          <HStack spacing={8} display={displayNavLink}>
-            <Link>Latest Posts</Link>
-            <Link>Old Posts</Link>
-          </HStack>
+        <HStack spacing={4} alignItems="center">
+          <IconButton
+            display={displayNavLink}
+            icon={<MdNotifications size="20px" />}
+            aria-label="Notification Icon Button"
+            variant="link"
+          />
           <Menu>
             <MenuButton
               as={Button}
@@ -103,8 +109,9 @@ const OrganismNavbar: React.FC = () => {
             </MenuButton>
             <MenuList>
               {displayNavLinkOnMenu}
-              <MenuItem>Account</MenuItem>
-              <MenuItem>My Posts</MenuItem>
+              <MenuItem onClick={() => router.push("/account")}>
+                Account
+              </MenuItem>
               <MenuItem
                 isDisabled={isLoading}
                 onClick={onLogout}

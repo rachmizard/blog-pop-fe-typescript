@@ -125,7 +125,11 @@ const MoleculeJoinerItem: React.FC<IMoleculeJoinerItemProps> = ({ user }) => {
         </Box>
       </Flex>
       <Box hidden={hideFollowButton}>
-        <Tooltip label={`${isFollowed ? "Followed" : `Follow ${user.name}`}`}>
+        <Tooltip
+          label={`${
+            isFollowed ? `Unfollow ${user.name}` : `Follow ${user.name}`
+          }`}
+        >
           {isFollowed ? (
             <IconButton
               aria-label="Follow Icon Button"

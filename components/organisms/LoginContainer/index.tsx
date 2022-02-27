@@ -1,6 +1,7 @@
 import { Box, Heading, Stack, Text, Button, useToast } from "@chakra-ui/react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import Router from "next/router";
+import { useQueryClient } from "react-query";
 
 import { MoleculeInputGroupText } from "components/molecules";
 import { AtomInputText, Form } from "components/atoms";
@@ -9,7 +10,9 @@ import { useAuth } from "hooks";
 import { authStore } from "store";
 
 const OrganismLoginContainer: React.FC = () => {
-  const [auth, setAuth] = useRecoilState(authStore.authAtom);
+  const queryClient = useQueryClient();
+
+  const setAuth = useSetRecoilState(authStore.authAtom);
   const { mutate, isLoading } = useAuth.useAuthLoginMutation();
   const toast = useToast();
 
@@ -23,6 +26,8 @@ const OrganismLoginContainer: React.FC = () => {
         });
       },
       onSuccess: ({ data }) => {
+        queryClient.invalidateQueries(["profile"]);
+
         setAuth((currVal) => ({
           ...currVal,
           accessToken: data?.accessToken,
@@ -83,7 +88,6 @@ const OrganismLoginContainer: React.FC = () => {
                 </Button>
 
                 <Button
-                  isLoading={isLoading}
                   type="submit"
                   colorScheme="telegram"
                   variant="link"

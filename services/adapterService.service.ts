@@ -19,7 +19,7 @@ export default class AdapterService {
           if (error.response.status === 401) {
             window.localStorage.removeItem("auth");
 
-            location.reload();
+            location.href = "/login";
 
             throw new Error(error.response.data.message);
           }

@@ -95,7 +95,9 @@ const DetailPost: NextPage<DetailPostProps> = ({ postId }) => {
   };
 
   return (
-    <AuthorizedLayout>
+    <AuthorizedLayout
+      title={isLoading ? `Fetching...` : `Detail Post ${data?.data.title}`}
+    >
       <Container maxW="container.lg" my="10">
         <Form
           defaultValues={{

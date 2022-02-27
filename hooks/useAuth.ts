@@ -10,8 +10,13 @@ import {
 const authService = new AuthService();
 
 const useGetProfile = () => {
-  return useQuery<AxiosResponse<any>, Error>(["profile"], () =>
-    authService.getProfile()
+  return useQuery<AxiosResponse<any>, Error>(
+    ["profile"],
+    () => authService.getProfile(),
+    {
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
   );
 };
 
