@@ -5,11 +5,7 @@ const AtomInputSwitch: React.FC<SwitchInterfaceProps> = ({
   controlRender,
   ...rest
 }) => {
-  return (
-    <Switch {...controlRender} {...rest}>
-      AtomInputSwitch
-    </Switch>
-  );
+  return <Switch {...controlRender} {...rest} />;
 };
 
 export default AtomInputSwitch;

@@ -8,21 +8,24 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  Switch,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { useQueryClient } from "react-query";
 
-import { PostValidation } from "validations";
 import { AtomInputText, AtomInputTextArea, Form } from "components/atoms";
+
 import {
   MoleculeAlertDialog,
   MoleculeInputGroupSwitch,
   MoleculeInputGroupText,
 } from "components/molecules";
+
+import { AtomInputSwitch } from "components/atoms";
 import { ICreatePostVariables } from "types/post.type";
+
 import { usePost } from "hooks";
-import { useQueryClient } from "react-query";
+import { PostValidation } from "validations";
 
 interface OrganismPostCreateModalProps {
   isOpen: boolean;
@@ -134,7 +137,7 @@ const OrganismPostCreateModal: React.FC<OrganismPostCreateModalProps> = ({
                       <MoleculeInputGroupSwitch
                         name="published"
                         label="Published"
-                        component={Switch}
+                        component={AtomInputSwitch}
                       />
                     </Stack>
                   </ModalBody>

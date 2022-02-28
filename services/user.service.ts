@@ -1,3 +1,5 @@
+import { AxiosResponse } from "axios";
+import { IResponseUsers } from "hooks/types/useUser.type";
 import AdapterService from "./adapterService.service";
 
 export default class UserService extends AdapterService {
@@ -5,7 +7,7 @@ export default class UserService extends AdapterService {
     super();
   }
 
-  async getNewUsers(params = {}) {
+  async getNewUsers(params = {}): Promise<AxiosResponse<IResponseUsers>> {
     try {
       return this.sendGetRequest("/users", params);
     } catch (error: any) {

@@ -8,9 +8,11 @@ import { AuthValidation } from "validations";
 import { useAuth } from "hooks";
 import { authStore } from "store";
 import { IAuthRegisterVariables } from "store/auth/auth.types";
+import { useQueryClient } from "react-query";
 
 const OrganismRegisterContainer: React.FC = () => {
   const [_, setAuth] = useRecoilState(authStore.authAtom);
+  const queryClient = useQueryClient();
   const { mutate, isLoading } = useAuth.useAuthRegisterMutation();
   const toast = useToast();
 
@@ -25,6 +27,9 @@ const OrganismRegisterContainer: React.FC = () => {
         });
       },
       onSuccess: ({ data }) => {
+        queryClient.invalidateQueries(["profile"]);
+        queryClient.invalidateQueries(["new-users"]);
+
         setAuth((currVal) => ({
           ...currVal,
           accessToken: data?.accessToken,
@@ -96,7 +101,6 @@ const OrganismRegisterContainer: React.FC = () => {
                 </Button>
 
                 <Button
-                  type="submit"
                   colorScheme="telegram"
                   variant="link"
                   size="sm"

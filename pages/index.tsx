@@ -9,14 +9,13 @@ const Home: NextPage = () => {
   return (
     <AuthorizedLayout title="Home">
       <Container maxW="container.xl" mt="8">
-        <Flex gap={20} direction={{ base: "column", md: "row" }}>
-          <Box w="50%" display={{ base: "none", md: "block" }}>
-            <OrganismJoiner />
-          </Box>
+        <Flex gap={2} direction={{ base: "column", md: "row" }}>
           <Box w="100%">
             <OrganismPostContainer />
           </Box>
-          <Box w="48%" />
+          <Box w="40%" display={{ base: "none", md: "block" }}>
+            <OrganismJoiner />
+          </Box>
         </Flex>
       </Container>
     </AuthorizedLayout>

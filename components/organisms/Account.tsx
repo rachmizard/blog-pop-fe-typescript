@@ -20,6 +20,7 @@ import { authStore } from "store";
 import { MoleculeTabs } from "components/molecules";
 import { usePost } from "hooks";
 import { OrganismInfiniteScrollItems, OrganismPostItem } from ".";
+import { INITIAL_FETCH_STATE_LIMIT } from "constant";
 
 interface OrganismAccountProps {
   userId?: string;
@@ -91,7 +92,7 @@ const OrganismAccount: React.FC<OrganismAccountProps> = ({ isAuthorized }) => {
 };
 
 const Posts: React.FC<{ authorId: number }> = ({ authorId }) => {
-  const [fetchMore, setFetchMore] = useState(2);
+  const [fetchMore, setFetchMore] = useState(INITIAL_FETCH_STATE_LIMIT);
 
   const { data, isLoading } = usePost.useFetchPosts({
     filter: {

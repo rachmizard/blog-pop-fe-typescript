@@ -88,7 +88,6 @@ const OrganismLoginContainer: React.FC = () => {
                 </Button>
 
                 <Button
-                  type="submit"
                   colorScheme="telegram"
                   variant="link"
                   size="sm"

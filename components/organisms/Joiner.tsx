@@ -18,14 +18,14 @@ const OrganismJoiner: React.FC = () => {
           gte: new Date(
             new Date().getFullYear(),
             new Date().getMonth(),
-            1,
-            1
+            0,
+            24
           ).toISOString(),
           lte: new Date(
             new Date().getFullYear(),
             new Date().getMonth() + 1,
             0,
-            23
+            24
           ).toISOString(),
         },
       },
@@ -36,7 +36,7 @@ const OrganismJoiner: React.FC = () => {
 
   if (isError) return <Text>Ups something went wrong!</Text>;
 
-  const hasNextPage = data?.data.paginate.hasNextPage;
+  const hasNextPage = data?.paginate.hasNextPage;
 
   return (
     <VStack
@@ -54,8 +54,8 @@ const OrganismJoiner: React.FC = () => {
           Array.from({ length: 3 }).map((_, index) => (
             <Skeleton h="10" w="full" key={index} />
           ))
-        ) : data?.data.data.length ? (
-          data?.data.data.map((user) => (
+        ) : data?.data.length ? (
+          data?.data.map((user) => (
             <MoleculeJoinerItem key={user.id} user={user} />
           ))
         ) : (

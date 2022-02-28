@@ -1,7 +1,6 @@
 import { AxiosResponse } from "axios";
 import { useMutation, useQuery } from "react-query";
 import { UserService } from "services";
-import { IResponseUsers } from "./types/useUser.type";
 
 type FollowUser = {
   userId: any;
@@ -10,12 +9,13 @@ type FollowUser = {
 const userService = new UserService();
 
 const useUserQuery = (queryKey: any[] = [], params = {}) => {
-  return useQuery<AxiosResponse<IResponseUsers>, Error>(
+  return useQuery(
     ["new-users", ...queryKey],
     () => userService.getNewUsers(params),
     {
       keepPreviousData: true,
       staleTime: Infinity,
+      select: (data) => data.data,
     }
   );
 };

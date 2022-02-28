@@ -55,7 +55,7 @@ const MoleculeInputGroupSwitch: React.FC<MoleculeInputGroupSwitch> = (
             {...rest}
           >
             <FormLabel htmlFor={htmlFor}>{label}</FormLabel>
-            <AtomComponent name={name} controlRender={field} />
+            <AtomComponent controlRender={field} />
             <FormErrorMessage>{fieldState.error?.message}</FormErrorMessage>
             <FormHelperText>{helperText}</FormHelperText>
           </FormControl>
