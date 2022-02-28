@@ -9,9 +9,14 @@ type FollowUser = {
 
 const userService = new UserService();
 
-const useUserQuery = (params = {}) => {
-  return useQuery<AxiosResponse<IResponseUsers>, Error>(["new-users"], () =>
-    userService.getNewUsers(params)
+const useUserQuery = (queryKey: any[] = [], params = {}) => {
+  return useQuery<AxiosResponse<IResponseUsers>, Error>(
+    ["new-users", ...queryKey],
+    () => userService.getNewUsers(params),
+    {
+      keepPreviousData: true,
+      staleTime: Infinity,
+    }
   );
 };
 

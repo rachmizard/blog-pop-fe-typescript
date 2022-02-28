@@ -5,7 +5,6 @@ import {
   Heading,
   HStack,
   IconButton,
-  Link,
   Menu,
   MenuButton,
   MenuItem,
@@ -19,7 +18,6 @@ import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useAuth } from "hooks";
 import { authStore } from "store";
 import { useRouter } from "next/router";
-import { RiNotification2Fill, RiNotification3Line } from "react-icons/ri";
 import { MdNotifications } from "react-icons/md";
 
 const OrganismNavbar: React.FC = () => {
