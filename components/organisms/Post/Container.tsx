@@ -15,7 +15,11 @@ import { usePost } from "hooks";
 const OrganismPostContainer: React.FC = () => {
   const { data, isLoading } = usePost.useFetchPosts({
     orderBy: "createdAt:desc",
-    filter: `published equals "false"`,
+    filter: {
+      published: false,
+    },
+    page: 1,
+    limit: 2,
   });
 
   return (

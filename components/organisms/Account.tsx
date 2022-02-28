@@ -92,7 +92,11 @@ const OrganismAccount: React.FC<OrganismAccountProps> = ({ isAuthorized }) => {
 
 const Posts: React.FC<{ authorId: number }> = ({ authorId }) => {
   const { data, isLoading } = usePost.useFetchPosts({
-    filter: `authorId in "${authorId}"`,
+    filter: {
+      authorId: {
+        equals: authorId,
+      },
+    },
     orderBy: "createdAt:desc",
   });
 
