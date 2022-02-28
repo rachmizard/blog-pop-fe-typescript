@@ -4,26 +4,21 @@ import { PostService } from "services";
 import {
   ICreatePostCommentVariables,
   ICreatePostVariables,
-  IPost,
-  IResponsePosts,
 } from "types/post.type";
 
 const postService = new PostService();
 
 const useFetchPosts = (params = {}) => {
-  return useQuery<AxiosResponse<IResponsePosts>, Error>(
-    ["posts", params],
-    () => postService.getPosts(params),
-    {
-      staleTime: Infinity,
-    }
-  );
+  return useQuery(["posts", params], () => postService.getPosts(params), {
+    staleTime: Infinity,
+    keepPreviousData: true,
+    getNextPageParam: (data) => console.log(data),
+    select: (data) => data.data,
+  });
 };
 
 const useFetchDetailPost = (id: string) => {
-  return useQuery<AxiosResponse<IPost>>(["post", id], () =>
-    postService.getPost(id)
-  );
+  return useQuery(["post", id], () => postService.getPost(id));
 };
 
 const useCreatePostMutation = () => {

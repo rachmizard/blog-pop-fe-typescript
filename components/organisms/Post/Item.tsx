@@ -25,7 +25,7 @@ const OrganismPostItem: React.FC<OrganismPostItemProps> = ({ post }) => {
         author={post.author}
         createdAt={post.createdAt}
       />
-      <Collapse in={isOpen}>
+      <Collapse in={isOpen} unmountOnExit>
         <Stack spacing={2}>
           <Heading size="md">{post.title}</Heading>
           <Text>{post.content}</Text>

@@ -19,7 +19,7 @@ import { useState } from "react";
 import { authStore } from "store";
 import { MoleculeTabs } from "components/molecules";
 import { usePost } from "hooks";
-import { OrganismPostItem } from ".";
+import { OrganismInfiniteScrollItems, OrganismPostItem } from ".";
 
 interface OrganismAccountProps {
   userId?: string;
@@ -91,12 +91,16 @@ const OrganismAccount: React.FC<OrganismAccountProps> = ({ isAuthorized }) => {
 };
 
 const Posts: React.FC<{ authorId: number }> = ({ authorId }) => {
+  const [fetchMore, setFetchMore] = useState(2);
+
   const { data, isLoading } = usePost.useFetchPosts({
     filter: {
       authorId: {
         equals: authorId,
       },
     },
+    page: 1,
+    limit: fetchMore,
     orderBy: "createdAt:desc",
   });
 
@@ -108,12 +112,21 @@ const Posts: React.FC<{ authorId: number }> = ({ authorId }) => {
       </Box>
     );
 
+  const dataLength = data?.data ? data.data.length : 0;
+  const hasMore = !!data?.paginate.hasNextPage;
+
   return (
-    <Stack spacing={10}>
-      {data?.data.data.map((post) => (
-        <OrganismPostItem key={post.id} post={post} />
-      ))}
-    </Stack>
+    <OrganismInfiniteScrollItems
+      dataLength={dataLength}
+      hasMore={hasMore}
+      onNext={() => setFetchMore((prev) => prev + 2)}
+    >
+      <Stack spacing={10}>
+        {data?.data.map((post) => (
+          <OrganismPostItem key={post.id} post={post} />
+        ))}
+      </Stack>
+    </OrganismInfiniteScrollItems>
   );
 };
 

@@ -1,3 +1,5 @@
+import { IPaginate } from "./paginate.type";
+
 export interface IPost {
   id: number;
   createdAt: string;
@@ -35,6 +37,7 @@ export interface ICreatePostVariables {
 }
 
 export interface IResponsePosts {
+  paginate: IPaginate;
   data: IPost[];
 }
 

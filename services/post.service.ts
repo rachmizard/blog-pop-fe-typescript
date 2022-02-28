@@ -1,4 +1,9 @@
-import { ICreatePostCommentVariables } from "types/post.type";
+import { AxiosResponse } from "axios";
+import {
+  ICreatePostCommentVariables,
+  IPost,
+  IResponsePosts,
+} from "types/post.type";
 import AdapterService from "./adapterService.service";
 
 export default class PostService extends AdapterService {
@@ -6,7 +11,7 @@ export default class PostService extends AdapterService {
     super();
   }
 
-  async getPosts(params = {}) {
+  async getPosts(params = {}): Promise<AxiosResponse<IResponsePosts>> {
     try {
       return this.sendGetRequest("/posts", params);
     } catch (error: any) {
@@ -14,7 +19,7 @@ export default class PostService extends AdapterService {
     }
   }
 
-  async getPost(id: string) {
+  async getPost(id: string): Promise<AxiosResponse<IPost>> {
     try {
       return this.sendGetRequest("/posts/" + id);
     } catch (error: any) {
