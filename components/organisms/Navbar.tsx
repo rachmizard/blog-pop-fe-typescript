@@ -4,7 +4,6 @@ import {
   Flex,
   Heading,
   HStack,
-  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -18,20 +17,17 @@ import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useAuth } from "hooks";
 import { authStore } from "store";
 import { useRouter } from "next/router";
-import { MdNotifications } from "react-icons/md";
+import { useFetchNotification } from "hooks/useNotification";
+import MoleculeNotificationMenu from "components/molecules/NotificationMenu";
+import { useState } from "react";
 
 const OrganismNavbar: React.FC = () => {
   const { user } = useRecoilValue(authStore.authAtom);
   const resetAuthAtom = useResetRecoilState(authStore.authAtom);
+  const [limit, setLimit] = useState(4);
 
-  const displayNavLink = useBreakpointValue({ base: "none", md: "block" });
   const displayNavLinkOnMenu = useBreakpointValue({
-    base: (
-      <>
-        <MenuItem>Latest Posts</MenuItem>
-        <MenuItem>Old Posts</MenuItem>
-      </>
-    ),
+    base: <></>,
     md: null,
     lg: null,
     xl: null,
@@ -41,6 +37,22 @@ const OrganismNavbar: React.FC = () => {
   const router = useRouter();
 
   const { mutate, isLoading } = useAuth.useAuthLogoutMutation();
+  const {
+    data,
+    isLoading: isLoadingFetchNotification,
+    isFetching,
+  } = useFetchNotification({
+    filter: {
+      isRead: false,
+      authorId: user?.id,
+    },
+    orderBy: "createdAt:desc",
+    page: 1,
+    limit,
+  });
+
+  const notificationHasNextPage = data?.paginate.hasNextPage;
+  const notificationDataLength = data?.paginate.totalRecords;
 
   const onLogout = () => {
     mutate(
@@ -91,13 +103,18 @@ const OrganismNavbar: React.FC = () => {
         </HStack>
 
         <HStack spacing={4} alignItems="center">
-          <IconButton
-            display={displayNavLink}
-            icon={<MdNotifications size="20px" />}
-            aria-label="Notification Icon Button"
-            variant="link"
+          <MoleculeNotificationMenu
+            isLoading={isLoadingFetchNotification}
+            isFetchingLoadMore={isFetching}
+            dataLength={notificationDataLength}
+            data={data?.data}
+            hasNextPage={notificationHasNextPage}
+            appendCounter={2}
+            onLoadMore={(counter) => {
+              setLimit((prev) => prev + counter);
+            }}
           />
-          <Menu>
+          <Menu isLazy>
             <MenuButton
               as={Button}
               rightIcon={<ChevronDownIcon />}
