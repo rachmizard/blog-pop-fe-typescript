@@ -7,4 +7,5 @@ export { default as OrganismPostItem } from "./Post/Item";
 export { default as OrganismPostCommentItem } from "./Post/CommentItem";
 export { default as OrganismPostCreateModal } from "./Post/CreateModal";
 export { default as OrganismAccount } from "./Account";
+export { default as OrganismAccountSkeleton } from "./Account/Skeleton";
 export { default as OrganismInfiniteScrollItems } from "./InfiniteScrollItems";

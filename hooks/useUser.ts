@@ -20,6 +20,14 @@ const useUserQuery = (queryKey: any[] = [], params = {}) => {
   );
 };
 
+const useFetchDetailUserQuery = (id: number | string) => {
+  return useQuery(["user-detail", id], () => userService.getDetailUser(id), {
+    keepPreviousData: true,
+    staleTime: Infinity,
+    select: (data) => data.data,
+  });
+};
+
 const useFollowUserMutation = () => {
   return useMutation<AxiosResponse, Error, FollowUser>((args) =>
     userService.followUserById(args.userId)
@@ -32,4 +40,9 @@ const useUnFollowUserMutation = () => {
   );
 };
 
-export { useUserQuery, useFollowUserMutation, useUnFollowUserMutation };
+export {
+  useUserQuery,
+  useFollowUserMutation,
+  useUnFollowUserMutation,
+  useFetchDetailUserQuery,
+};

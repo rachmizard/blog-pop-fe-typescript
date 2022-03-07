@@ -1,5 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
+  Button,
   Flex,
   Heading,
   HStack,
@@ -7,6 +8,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import { IPost } from "types/post.type";
 import { formatDate } from "utils/intl";
 
@@ -27,22 +29,24 @@ const MoleculePostHeader: React.FC<MoleculePostHeaderProps> = ({
 
   return (
     <HStack w="full" justifyContent="space-between">
-      <Stack alignItems="center" direction="row">
-        <Flex
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          bgColor={`#${randomColor}`}
-          rounded="full"
-          h="8"
-          w="8"
-        >
-          <Text textAlign="center" color="white">
-            {author?.name[0]}
-          </Text>
-        </Flex>
-        <Heading size="sm">{author?.name}</Heading>
-      </Stack>
+      <Link href={`/users/${author?.id}`} passHref>
+        <Stack alignItems="center" direction="row" cursor="pointer">
+          <Flex
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            bgColor={`#${randomColor}`}
+            rounded="full"
+            h="8"
+            w="8"
+          >
+            <Text textAlign="center" color="white">
+              {author?.name[0]}
+            </Text>
+          </Flex>
+          <Heading size="sm">{author?.name}</Heading>
+        </Stack>
+      </Link>
       <Stack>
         <HStack>
           <Text fontSize={{ base: "14px", sm: "16px", md: "14px" }}>
