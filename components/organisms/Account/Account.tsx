@@ -1,29 +1,23 @@
 import {
   Box,
-  Button,
-  ButtonGroup,
   Flex,
-  Heading,
-  HStack,
   SkeletonCircle,
   SkeletonText,
   Stack,
   Text,
-  VStack,
 } from "@chakra-ui/react";
-import { RiMessage2Line, RiUserAddFill } from "react-icons/ri";
 import { useRecoilValue } from "recoil";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { authStore } from "store";
-import { MoleculeTabs } from "components/molecules";
+import { MoleculeAccountInfo, MoleculeTabs } from "components/molecules";
 import { usePost, useUser } from "hooks";
 import { OrganismInfiniteScrollItems, OrganismPostItem } from "..";
 import { INITIAL_FETCH_STATE_LIMIT } from "constant";
 import OrganismAccountSkeleton from "./Skeleton";
 
 interface OrganismAccountProps {
-  userId: string | number;
+  userId: number;
 }
 
 const OrganismAccount: React.FC<OrganismAccountProps> = ({ userId }) => {
@@ -33,56 +27,24 @@ const OrganismAccount: React.FC<OrganismAccountProps> = ({ userId }) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const { data, isLoading } = useUser.useFetchDetailUserQuery(userId);
 
-  const contents = [
-    {
-      title: "Post",
-      component: <Posts authorId={authorized ? profile.user.id : data?.id} />,
-    },
-    {
-      title: "Replies",
-      component: <Text>Coming soon..</Text>,
-    },
-  ];
+  const contents = useMemo(() => {
+    return [
+      {
+        title: "Post",
+        component: <Posts authorId={authorized ? profile.user.id : data?.id} />,
+      },
+      {
+        title: "Replies",
+        component: <Text>Coming soon..</Text>,
+      },
+    ];
+  }, [profile.user.id, data?.id]);
 
   return (
     <>
       <Flex gap={8} direction="column" justifyContent="center">
         <OrganismAccountSkeleton show={isLoading}>
-          <VStack spacing={6}>
-            <Heading size="lg">Account</Heading>
-            <Flex
-              alignItems="center"
-              justifyContent="center"
-              bg="gray.400"
-              w="20"
-              h="20"
-              rounded="full"
-              boxShadow="md"
-            >
-              <Heading size="lg" color="ActiveBorder">
-                {data?.name[0].toUpperCase()}
-              </Heading>
-            </Flex>
-
-            <Heading>{data?.name}</Heading>
-            <HStack spacing={4}>
-              <Text>Follower {data?.followedBy?.length}</Text>
-              <Text>Following {data?.following?.length}</Text>
-              <Text>Posts {data?.posts?.length}</Text>
-            </HStack>
-            <HStack hidden={authorized}>
-              <ButtonGroup
-                spacing={10}
-                size="sm"
-                variant="link"
-                colorScheme="facebook"
-                rounded="none"
-              >
-                <Button leftIcon={<RiUserAddFill />}>Follow</Button>
-                <Button leftIcon={<RiMessage2Line />}>Message</Button>
-              </ButtonGroup>
-            </HStack>
-          </VStack>
+          <MoleculeAccountInfo data={data} authorized={authorized} />
         </OrganismAccountSkeleton>
         <Box>
           <MoleculeTabs

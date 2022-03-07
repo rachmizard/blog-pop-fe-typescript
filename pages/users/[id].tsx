@@ -13,7 +13,7 @@ const UsersPage: NextPage<UsersPageProps> = ({ userId }) => {
   return (
     <AuthorizedLayout title="Account">
       <Container maxW="container.md" my="10">
-        <OrganismAccount userId={userId} />
+        <OrganismAccount userId={parseInt(userId)} />
       </Container>
     </AuthorizedLayout>
   );

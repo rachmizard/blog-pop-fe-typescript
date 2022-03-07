@@ -6,3 +6,4 @@ export { default as MoleculePostAction } from "./Post/Action";
 export { default as MoleculeAlertDialog } from "./AlertDialog";
 export { default as MoleculePostHeaderTimeline } from "./Post/HeaderTimeline";
 export { default as MoleculeTabs } from "./Tabs";
+export { default as MoleculeAccountInfo } from "./Account/Info";

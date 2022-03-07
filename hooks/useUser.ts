@@ -20,7 +20,7 @@ const useUserQuery = (queryKey: any[] = [], params = {}) => {
   );
 };
 
-const useFetchDetailUserQuery = (id: number | string) => {
+const useFetchDetailUserQuery = (id: number) => {
   return useQuery(["user-detail", id], () => userService.getDetailUser(id), {
     keepPreviousData: true,
     staleTime: Infinity,
