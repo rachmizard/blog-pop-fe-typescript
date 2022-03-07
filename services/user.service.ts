@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { IResponseUsers } from "hooks/types/useUser.type";
-import { IUser } from "types/user.type";
+import { IUser, IUserFollowResponse } from "types/user.type";
 import AdapterService from "./adapterService.service";
 
 export default class UserService extends AdapterService {
@@ -24,6 +24,14 @@ export default class UserService extends AdapterService {
       return this.sendGetRequest(`/users/${id}`, params);
     } catch (error: any) {
       throw new Error("UserService.getDetailUser: " + error?.message);
+    }
+  }
+
+  async getFollows(params = {}): Promise<AxiosResponse<IUserFollowResponse>> {
+    try {
+      return this.sendGetRequest("/follows", params);
+    } catch (error: any) {
+      throw new Error("UserService.getFollows: " + error?.message);
     }
   }
 

@@ -9,3 +9,4 @@ export { default as OrganismPostCreateModal } from "./Post/CreateModal";
 export { default as OrganismAccount } from "./Account";
 export { default as OrganismAccountSkeleton } from "./Account/Skeleton";
 export { default as OrganismInfiniteScrollItems } from "./InfiniteScrollItems";
+export { default as OrganismAccountFollowItems } from "./Account/FollowItems";

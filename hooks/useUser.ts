@@ -20,6 +20,18 @@ const useUserQuery = (queryKey: any[] = [], params = {}) => {
   );
 };
 
+const useFetchUserFollowsQuery = (queryKey: any[] = [], queryParams = {}) => {
+  return useQuery(
+    ["follows", queryKey],
+    () => userService.getFollows(queryParams),
+    {
+      keepPreviousData: true,
+      staleTime: Infinity,
+      select: (data) => data.data,
+    }
+  );
+};
+
 const useFetchDetailUserQuery = (id: number) => {
   return useQuery(["user-detail", id], () => userService.getDetailUser(id), {
     keepPreviousData: true,
@@ -42,6 +54,7 @@ const useUnFollowUserMutation = () => {
 
 export {
   useUserQuery,
+  useFetchUserFollowsQuery,
   useFollowUserMutation,
   useUnFollowUserMutation,
   useFetchDetailUserQuery,

@@ -5,9 +5,10 @@ import {
   Heading,
   HStack,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { useUser } from "hooks";
+import { useState } from "react";
 import {
   RiMessage2Line,
   RiUserAddFill,
@@ -15,9 +16,13 @@ import {
 } from "react-icons/ri";
 import { useQueryClient } from "react-query";
 import { useRecoilState } from "recoil";
-import { authStore } from "store";
-import { IUser } from "types/user.type";
 
+import MoleculeModal from "../Modal";
+import { OrganismAccountFollowItems } from "components/organisms";
+
+import { IUser } from "types/user.type";
+import { useUser } from "hooks";
+import { authStore } from "store";
 interface MoleculeAccountInfoProps {
   data?: IUser;
   authorized: boolean;
@@ -32,6 +37,9 @@ const MoleculeAccountInfo: React.FC<MoleculeAccountInfoProps> = ({
   const { mutate: mutateUnfollow, isLoading: isLoadingUnFollow } =
     useUser.useUnFollowUserMutation();
   const [auth, setAuth] = useRecoilState(authStore.authAtom);
+
+  const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });
+  const [type, setType] = useState("following");
 
   const onFollowHandler = (userId: number) => {
     mutate(
@@ -80,9 +88,21 @@ const MoleculeAccountInfo: React.FC<MoleculeAccountInfoProps> = ({
   const onInvalidateQueries = () => {
     queryClient.invalidateQueries(["user-detail", data!.id]);
     queryClient.invalidateQueries(["profile"]);
+    queryClient.invalidateQueries(["follows"]);
+  };
+
+  const onOpenFollowModal = (type: "follower" | "following") => {
+    setType(type);
+    onOpen();
   };
 
   const isFollowed = auth.followingState.includes(data!.id);
+
+  const followModalTitle: any = {
+    follower: `Follower of ${data?.name}`,
+    following: `Following of ${data?.name}`,
+    undefined: "Empty",
+  };
 
   return (
     <VStack spacing={6}>
@@ -103,8 +123,12 @@ const MoleculeAccountInfo: React.FC<MoleculeAccountInfoProps> = ({
 
       <Heading>{data?.name}</Heading>
       <HStack spacing={4}>
-        <Text>Follower {data?.followedBy?.length}</Text>
-        <Text>Following {data?.following?.length}</Text>
+        <Button variant="link" onClick={() => onOpenFollowModal("follower")}>
+          Follower {data?.followedBy?.length}
+        </Button>
+        <Button variant="link" onClick={() => onOpenFollowModal("following")}>
+          Following {data?.following?.length}
+        </Button>
         <Text>Posts {data?.posts?.length}</Text>
       </HStack>
       <HStack hidden={authorized}>
@@ -131,6 +155,16 @@ const MoleculeAccountInfo: React.FC<MoleculeAccountInfoProps> = ({
           <Button leftIcon={<RiMessage2Line />}>Message</Button>
         </ButtonGroup>
       </HStack>
+
+      <MoleculeModal
+        isOpen={isOpen}
+        onClose={onClose}
+        size="sm"
+        scrollBehavior="inside"
+        title={followModalTitle[type]}
+      >
+        <OrganismAccountFollowItems userId={data!.id} type={type} />
+      </MoleculeModal>
     </VStack>
   );
 };

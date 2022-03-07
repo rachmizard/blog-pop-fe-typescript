@@ -8,13 +8,21 @@ interface InfiniteScrollItemsProps {
   onNext: () => void;
   loader?: React.ReactNode;
   endMessageText?: string;
+  scrollableTarget?: string;
 }
 
 export default function InfiniteScrollItems(
   props: InfiniteScrollItemsProps
 ): JSX.Element {
-  const { dataLength, hasMore, onNext, loader, children, endMessageText } =
-    props;
+  const {
+    dataLength,
+    hasMore,
+    onNext,
+    loader,
+    children,
+    endMessageText,
+    scrollableTarget,
+  } = props;
 
   return (
     <InfiniteScroll
@@ -30,9 +38,13 @@ export default function InfiniteScrollItems(
           </VStack>
         )
       }
+      scrollableTarget={scrollableTarget}
+      hasChildren={true}
       endMessage={
-        <Text my="10" textAlign={"center"} fontSize={"20px"} color="gray.400">
-          {endMessageText ? endMessageText : "You are at the end of the list"}
+        <Text my="2" textAlign={"center"} fontSize={"14px"} color="gray.400">
+          {endMessageText
+            ? endMessageText
+            : "Hold up! There's nothing more to see."}
         </Text>
       }
     >

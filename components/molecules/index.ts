@@ -7,3 +7,5 @@ export { default as MoleculeAlertDialog } from "./AlertDialog";
 export { default as MoleculePostHeaderTimeline } from "./Post/HeaderTimeline";
 export { default as MoleculeTabs } from "./Tabs";
 export { default as MoleculeAccountInfo } from "./Account/Info";
+export { default as MoleculeModal } from "./Modal";
+export { default as MoleculeAccountFollowItem } from "./Account/FollowItem";
